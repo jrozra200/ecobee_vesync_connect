@@ -1,9 +1,8 @@
 library(httr)
 library(jsonlite)
-library(tidyverse)
-library(reticulate)
+library(dplyr)
 
-creds <- read.csv("ecobee.config")
+bcreds <- read.csv("ecobee.config")
 
 refresh <- paste0("https://api.ecobee.com/token?grant_type=refresh_token&code=",
                   creds$refresh_token[1], "&client_id=", creds$client_id[1])
@@ -43,7 +42,7 @@ for(sensor in 1:3){
 }
 
 info$name <- tolower(gsub("'s Room", "", info$name))
-info <- info[info$name != "My ecobee", ]
+info <- info[info$name != "my ecobee", ]
 
 info$action <- case_when(
     info$temp < 70 ~ "on",
