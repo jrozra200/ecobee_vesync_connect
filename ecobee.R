@@ -61,8 +61,8 @@ if(hour(Sys.time()) >= 22 | hour(Sys.time()) < 11){
     print(info)
     
     for(python in 1:dim(info)[1]){
-        py_cmd <- paste0("python3 vesync.py ", info$name[python], " ", 
-                         info$action[python], 
+        py_cmd <- paste0("python3 /home/ec2-user/ecobee/vesync.py ", 
+                         info$name[python], " ", info$action[python], 
                          " >> /home/ec2-user/ecobee/vesync.log 2>&1")
         
         system(py_cmd)
