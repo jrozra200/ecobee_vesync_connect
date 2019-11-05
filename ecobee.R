@@ -1,5 +1,5 @@
 print(paste0(Sys.time(), ": Script Started"))
-library(lubridate, quiet = TRUE)
+library(lubridate, quietly = TRUE)
 
 if(hour(Sys.time()) >= 22 | hour(Sys.time()) < 11){
     library(httr)
