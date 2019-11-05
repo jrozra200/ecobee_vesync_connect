@@ -1,6 +1,5 @@
 library(httr)
 library(jsonlite)
-library(dplyr)
 
 bcreds <- read.csv("ecobee.config")
 
@@ -44,15 +43,13 @@ for(sensor in 1:3){
 info$name <- tolower(gsub("'s Room", "", info$name))
 info <- info[info$name != "my ecobee", ]
 
-info$action <- case_when(
-    info$temp < 70 ~ "on",
-    info$temp > 74 ~ "off",
-    1 == 1 ~ "no action"
-)
+info$action <- ifelse(info$temp < 70, "on", 
+                      ifelse(info$temp > 74 ~ "off", 
+                             "no action"))
 
 if(dim(info[info$action != "no action", ])[1] > 0 ){
     for(python in 1:dim(info[info$action != "no action", ])[1]){
-        py_cmd <- paste0("python vesync.py ", info$name[python], " ", 
+        py_cmd <- paste0("python3 vesync.py ", info$name[python], " ", 
                          info$action[python])
         
         system(py_cmd)
