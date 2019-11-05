@@ -29,11 +29,11 @@ if(hour(Sys.time()) >= 22 | hour(Sys.time()) < 11){
                     creds$access_token[1] , "' 'https://api.ecobee.com/1/thermostat?",
                     "format=json&body=\\{\"selection\":\\{\"selectionType\":\"regi",
                     "stered\",\"selectionMatch\":\"\",\"includeSensors\":true\\}",
-                    "\\}' > response.json")
+                    "\\}' > /home/ec2-user/ecobee/response.json")
     
     system(therm)
     
-    response <- read_json("response.json")
+    response <- read_json("/home/ec2-user/ecobee/response.json")
     
     print(paste0(Sys.time(), ": Got Temps. Formatting Data."))
     
