@@ -5,7 +5,7 @@ import sys
 
 print(str(datetime.datetime.now()) + ": Libraries loaded & script starting.")
 
-config = pd.read_csv("vesync.config")
+config = pd.read_csv("/home/ec2-user/ecobee/vesync.config")
 
 manager = VeSync(config.email[0], config.password[0])
 manager.login()

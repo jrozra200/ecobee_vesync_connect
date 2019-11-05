@@ -5,7 +5,7 @@ library(jsonlite)
 
 print(paste0(date(), ": Libraries Loaded. Refreshing Ecobee Creds"))
 
-creds <- read.csv("ecobee.config")
+creds <- read.csv("/home/ec2-user/ecobee/ecobee.config")
 
 refresh <- paste0("https://api.ecobee.com/token?grant_type=refresh_token&code=",
                   creds$refresh_token[1], "&client_id=", creds$client_id[1])
@@ -51,19 +51,19 @@ for(sensor in 1:3){
 info$name <- tolower(gsub("'s Room", "", info$name))
 info <- info[info$name != "my ecobee", ]
 
-info$action <- ifelse(info$temp < 70, "on", 
-                      ifelse(info$temp > 74, "off", 
-                             "no action"))
+info$action <- ifelse(info$temp < 74, "on", "off")
 
 print(paste0(date(), ": Formatted Data. Telling VeSync what to do."))
 
-if(dim(info[info$action != "no action", ])[1] > 0 ){
-    for(python in 1:dim(info[info$action != "no action", ])[1]){
-        py_cmd <- paste0("python3 vesync.py ", info$name[python], " ", 
-                         info$action[python])
-        
-        system(py_cmd)
-    }
+print(paste0(date(), ": here is the current status of each room and the state it should be in:"))
+print(info)
+
+for(python in 1:dim(info)[1]){
+    py_cmd <- paste0("python3 vesync.py ", info$name[python], " ", 
+                     info$action[python], 
+                     " >> /home/ec2-user/ecobee/vesync.log 2>&1")
+    
+    system(py_cmd)
 }
 
 print(paste0(date(), ": Updated the rooms as needed. Script Complete"))
