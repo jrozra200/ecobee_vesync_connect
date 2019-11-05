@@ -1,7 +1,7 @@
 library(httr)
 library(jsonlite)
 
-bcreds <- read.csv("ecobee.config")
+creds <- read.csv("ecobee.config")
 
 refresh <- paste0("https://api.ecobee.com/token?grant_type=refresh_token&code=",
                   creds$refresh_token[1], "&client_id=", creds$client_id[1])
