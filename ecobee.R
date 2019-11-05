@@ -1,5 +1,9 @@
+print(paste0(date(), ": Script Started"))
+
 library(httr)
 library(jsonlite)
+
+print(paste0(date(), ": Libraries Loaded. Refreshing Ecobee Creds"))
 
 creds <- read.csv("ecobee.config")
 
@@ -17,6 +21,8 @@ creds <- data.frame(access_token = at,
 
 write.csv(creds, "ecobee.config", row.names = FALSE)
 
+print(paste0(date(), ": Refreshed Ecobee Creds. Getting temps."))
+
 therm <- paste0("curl -s -H 'Content-Type: text/json' -H 'Authorization: Bearer ",
                 creds$access_token[1] , "' 'https://api.ecobee.com/1/thermostat?",
                 "format=json&body=\\{\"selection\":\\{\"selectionType\":\"regi",
@@ -26,6 +32,8 @@ therm <- paste0("curl -s -H 'Content-Type: text/json' -H 'Authorization: Bearer 
 system(therm)
 
 response <- read_json("response.json")
+
+print(paste0(date(), ": Got Temps. Formatting Data."))
 
 info <- data.frame()
 for(sensor in 1:3){
@@ -47,6 +55,8 @@ info$action <- ifelse(info$temp < 70, "on",
                       ifelse(info$temp > 74, "off", 
                              "no action"))
 
+print(paste0(date(), ": Formatted Data. Telling VeSync what to do."))
+
 if(dim(info[info$action != "no action", ])[1] > 0 ){
     for(python in 1:dim(info[info$action != "no action", ])[1]){
         py_cmd <- paste0("python3 vesync.py ", info$name[python], " ", 
@@ -56,3 +66,4 @@ if(dim(info[info$action != "no action", ])[1] > 0 ){
     }
 }
 
+print(paste0(date(), ": Updated the rooms as needed. Script Complete"))
