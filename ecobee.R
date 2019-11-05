@@ -44,7 +44,7 @@ info$name <- tolower(gsub("'s Room", "", info$name))
 info <- info[info$name != "my ecobee", ]
 
 info$action <- ifelse(info$temp < 70, "on", 
-                      ifelse(info$temp > 74 ~ "off", 
+                      ifelse(info$temp > 74, "off", 
                              "no action"))
 
 if(dim(info[info$action != "no action", ])[1] > 0 ){
