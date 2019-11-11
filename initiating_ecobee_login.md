@@ -21,8 +21,9 @@ Click "Create"
 
 # 3. Request a PIN for your new App
 
-I've created [this script](www.github.com/something) that takes your client id 
-and gets a pin.
+I've created 
+[this script](https://github.com/jrozra200/ecobee_vesync_connect/blob/master/ecobee_config_restore_functions.R) 
+that takes your client id and gets a pin.
 
 Here's the function and code to get your pin. Just put your client id into the 
 part below that says **"YOUR CODE HERE"**
