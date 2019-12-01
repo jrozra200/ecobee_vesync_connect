@@ -14,6 +14,13 @@ if(hour(Sys.time()) >= 22 | hour(Sys.time()) < 11){
     
     ref <- POST(refresh)
     
+    if(grepl("access_token", as.character(ref)) == FALSE) {
+        print(paste0(Sys.time(), ": Auth has broken - login and fix it"))
+        system(paste0("/bin/bash /home/ec2-user/ecobee/send_notification.sh >>",
+                      " /home/ec2-user/ecobee/send_notification.log"))
+        break
+    }
+    
     at <- gsub("(^.*access_token\": \")(\\w+)(\".*$)", "\\2", as.character(ref))
     rt <- gsub("(^.*refresh_token\": \")(\\w+)(\".*$)", "\\2", as.character(ref))
     
