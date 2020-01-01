@@ -60,7 +60,7 @@ if(hour(Sys.time()) >= 22 | hour(Sys.time()) < 11){
     info$name <- tolower(gsub("'s Room", "", info$name))
     info <- info[info$name != "my ecobee", ]
     
-    info$action <- ifelse(info$temp < 74, "on", "off")
+    info$action <- ifelse(info$temp < 72, "on", "off")
     
     print(paste0(Sys.time(), ": Formatted Data. Telling VeSync what to do."))
     
